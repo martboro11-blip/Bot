@@ -13,15 +13,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade buildozer cython
+
       - name: Build with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
+        uses: ArtemSydoryk/buildozer-action@v1
         with:
           command: buildozer android debug
-          buildozer_version: master
+          subfolder: .
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: OGameBot-APK
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: bin/*.apk
