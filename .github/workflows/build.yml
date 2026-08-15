@@ -13,21 +13,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Build with Buildozer Action
+        uses: akaihola/buildozer-action@v1
         with:
-          python-version: '3.11'
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool \
-            pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-          pip install --upgrade buildozer cython
-
-      - name: Build APK with Buildozer
-        run: |
-          buildozer android debug
+          command: buildozer android debug
+          repository_root: .
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
