@@ -18,15 +18,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
+          sudo apt update
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool \
+            pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
           pip install --upgrade buildozer cython
 
-      - name: Build with Buildozer
-        uses: ArtemSydoryk/buildozer-action@v1
-        with:
-          command: buildozer android debug
-          subfolder: .
+      - name: Build APK with Buildozer
+        run: |
+          buildozer android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
